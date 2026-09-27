@@ -1,0 +1,152 @@
+CREATE DATABASE FoodDB;
+
+USE FoodDB;
+
+ 
+
+-- Items Table
+
+CREATE TABLE Items (
+
+    Item_ID INT PRIMARY KEY,
+
+    Item_Name VARCHAR(50),
+
+    Category VARCHAR(30),
+
+    Price DECIMAL(10,2)
+
+);
+
+ 
+
+-- Food Orders Table
+
+CREATE TABLE Food_Orders (
+
+    Order_ID INT PRIMARY KEY,
+
+    Item_ID INT,
+
+    Customer_Name VARCHAR(50),
+
+    Quantity INT,
+
+    Order_Date DATE,
+
+    FOREIGN KEY (Item_ID) REFERENCES Items(Item_ID)
+
+);
+
+INSERT INTO Items VALUES
+
+(101, 'Pizza', 'Fast Food', 250.00),
+
+(102, 'Burger', 'Fast Food', 150.00),
+
+(103, 'Pasta', 'Italian', 200.00),
+
+(104, 'Sandwich', 'Snacks', 120.00),
+
+(105, 'Biryani', 'Indian', 220.00),
+
+(106, 'Momos', 'Snacks', 100.00),
+
+(107, 'Fried Rice', 'Chinese', 180.00),
+
+(108, 'Noodles', 'Chinese', 160.00);
+
+
+
+
+INSERT INTO Food_Orders VALUES
+
+(1, 101, 'Ajay', 2, '2026-09-20'),
+
+(2, 102, 'Asha', 1, '2026-09-20'),
+
+(3, 105, 'Ravi', 2, '2026-09-21'),
+
+(4, 103, 'Neha', 1, '2026-09-21'),
+
+(5, 106, 'Karan', 3, '2026-09-22'),
+
+(6, 101, 'Pooja', 1, '2026-09-22'),
+
+(7, 108, 'Amit', 2, '2026-09-23'),
+
+(8, 104, 'Simran', 2, '2026-09-23'),
+
+(9, 107, 'Rahul', 1, '2026-09-24'),
+
+(10, 102, 'Anjali', 2, '2026-09-24');
+
+SELECT * FROM Food_Orders;
+SELECT Item_Name, Category, Price FROM Items;
+
+SELECT 
+    o.Order_ID, 
+    o.Customer_Name, 
+    i.Item_Name, 
+    i.Price, 
+    o.Quantity
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID;
+
+SELECT DISTINCT o.Customer_Name
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE i.Item_Name = 'Pizza';
+
+SELECT * 
+FROM Food_Orders
+WHERE Quantity > 1;
+
+SELECT DISTINCT o.Customer_Name
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE i.Price > 150;
+
+SELECT o.Customer_Name, i.Item_Name, i.Price
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE i.Category = 'Fast Food';
+
+
+SELECT DISTINCT o.Customer_Name
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE i.Item_Name = 'Biryani' AND o.Quantity >= 2;
+
+SELECT o.*, i.Price
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE i.Price BETWEEN 100 AND 200;
+
+SELECT * 
+FROM Food_Orders
+WHERE Customer_Name LIKE 'A%';
+
+SELECT o.Customer_Name, i.Item_Name, o.Quantity
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE o.Order_Date > '2026-09-21';
+
+SELECT o.*
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE i.Category = 'Chinese' AND o.Quantity > 1;
+
+SELECT o.Order_ID, o.Customer_Name, i.Item_Name, i.Price
+FROM Food_Orders o
+INNER JOIN Items i ON o.Item_ID = i.Item_ID
+WHERE i.Price < 200;
+
+
+
+
+
+
+
+
+
